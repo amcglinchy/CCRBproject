@@ -2,11 +2,14 @@ body {
     font-family: "Source Sans Pro", sans-serif;
     font-size: 16px;
     padding: 1em;
+    background-color: black;
   }
   
   h1 {
     font-size: 3em;
+    color: aliceblue;
     margin: 0.25em 0;
+    text-align: center;
   }
   
   h3 {
@@ -34,3 +37,23 @@ body {
   circle{
     overflow: visible;
   }
+  .btn{
+    color:white;
+    background-color:#0089FF;
+    border-radius: 50px;
+    font-size: large;
+    text-align: center;
+    width: fit-content;
+    height: fit-content;
+  }
+.btnz{
+    text-align: center;
+    align-items: center;
+    }
+svg{
+    background-color: black;
+    align-items: center;
+}
+/* .btnz > div {
+        flex: 3; 
+      } */

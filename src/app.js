@@ -3,8 +3,8 @@ import * as d3 from 'd3'
   /**
  * CONSTANTS AND GLOBALS
  * */
-const h = 1000
-const w = 1000
+const h = 1300
+const w = 1300
 const m = {
     top: 30,
     bottom: 30,
@@ -28,7 +28,7 @@ let state = {
 /**
 * LOAD DATA
 * */
-import('../data/ccrbPO_0401.json').then(data => {
+import('../data/ccrbPO_active_0401.json').then(data => {
     console.log("loaded data:", data);
     state.data = data;
     init();
@@ -41,21 +41,21 @@ import('../data/ccrbPO_0401.json').then(data => {
 function init() {
 
     //Filters
-    let activeData = state.data.filter((d)=> (d.Active_Per_Last_Reported_Status) == 'Yes')
-    let complaintNums = activeData.map((d)=>d.Total_Complaints)
+    // let activeData = state.data.filter((d)=> (d.Active_Per_Last_Reported_Status) == 'Yes')
+    let complaintNums = state.data.map((d)=>d.Total_Complaints)
 
     // Scales
     const yScale = d3.scaleBand()
-        .range([0,800])
+        .range([0,1100])
         .domain(d3.range(numRows));
 
     const xScale = d3.scaleBand()
-        .range([0, 800])
+        .range([0, 1100])
         .domain(d3.range(numCols));
 
     const colorScale = d3.scaleLinear()
         .domain([0, d3.max(complaintNums)])
-        .range(["#FFFFFF", "#2596be"]);
+        .range(["#FFFFFF", "#0089FF"]);
 
     //create svg
     svg = d3.select("#container")
@@ -64,18 +64,19 @@ function init() {
         .attr("height", height);
 
     container = svg.append("g")
-        .attr("transform", "translate(120,120)");
+        .attr("align-items", "center")
+        .attr("transform", "translate(140,140)");
 
 
     circles = container.selectAll("circle")
-        .data(activeData)
+        .data(state.data)
         .join("circle")
         .attr("class", "circle")
         .attr('cx', (d)=>xScale((d.Num)%numCols))
         .attr('cy', (d)=>yScale(Math.floor((d.Num)/numCols)))
         .attr('r', circleRadius)
         .attr('fill', (d)=>colorScale(d.Total_Complaints))
-        .style('stroke', 'black');
+        // .style('stroke', 'gray');
 
 
   draw(); // calls the draw function
