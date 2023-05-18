@@ -2,17 +2,25 @@
 <html lang="en">
   <head>
     <meta charset="utf-8"/>
-    <title>My First Parcel App</title>
+    <title>NYPD Officers</title>
     <link rel="stylesheet" href="styles.css" />
     <script type="module" src="app.js"></script>
   </head>
   <body>
     <h1>NYPD Officers</h1>
+    <p> Explore the makeup of the NYPD using data from the Civilian Complaint Review Board available on NYC OpenData.
+        Sort active officers by Rank, Race or Gender by clicking the buttons.
+    </p>
 <div class="btnz">
-    <button class='btn' id="race">Race</button>
-    <button class='btn' id="rank">Rank</button>
-    <button class="btn" id="gender">Gender</button>
+    <button type="button" class='btn active' id="Num">All</button>
+    <button type="button" class='btn' id="Officer_Race">Race</button>
+    <button type="button" class='btn' id="Current_Rank">Rank</button>
+    <button type="button" class="btn" id="Officer_Gender">Gender</button>
 </div>  
     <div id="container"> </div>
+    <div class="modal-bg">
+      <div class="modal" id="modal">
+      </div>
+  </div>
   </body>
 </html>
