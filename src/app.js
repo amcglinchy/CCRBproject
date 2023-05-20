@@ -90,6 +90,8 @@ function filterFun (uFilter){
         console.log("filtercount", filterCount)
 
         let filterCountMax = d3.max(Array.from(filterCount.values()))
+
+        console.log("filtercountmax", filterCountMax)
         barHscale = d3.scaleLinear()
             .domain([0, filterCountMax])
             .range([m.left, width - m.right])
@@ -144,8 +146,6 @@ function filterFun (uFilter){
             .tickSize(0))
         .style('opacity', 0)
         .attr("transform", `translate(${m.left * 1.5},${m.top})`);
-        // .selectAll('text')
-        // .call(wrap);
 
         setTimeout(() => {
           filterAxis.selectAll(".tick text").style("font-size", "12px").call(wrap, 70);
@@ -155,11 +155,12 @@ function filterFun (uFilter){
 
         filterAxis.select(".domain").remove(); 
 
-
+        let totalOfficers = state.data.length;
+        console.log("totaloff", totalOfficers)
         if (barFigures) {
             barFigures.remove();
           }
-        
+
         barFigures = svg.append('g')
         .attr('class', 'bar-figure')
         .selectAll('text')
@@ -169,10 +170,11 @@ function filterFun (uFilter){
             .append('text')
             .attr('class', 'bar-figure')
             .attr('id', d => `bar-figure-${d[0]}`)
-            .attr('x', d => barHscale(d[1])+ 80)  // Adjust the x-position as needed
-            .attr('y', d => filterBand(d[0]) + filterBand.bandwidth()/1.5)
-            .text(d => d[1])
-            .style('font-size', 24)  // Adjust the font size as needed
+            .attr("x", d => barHscale(d[1])+60)
+            .attr('y', d => filterBand(d[0]) + filterBand.bandwidth()/1.5) //need to fix
+            .text(d => d[1] + ' Officers')
+            .text((d) => `${d[1]} Officers (${((d[1] / totalOfficers) * 100).toFixed(2)}%)`)
+            .style('font-size', 24)
             .style('fill', 'white')
             .style('opacity', 0),
             
@@ -180,10 +182,6 @@ function filterFun (uFilter){
             
           exit => exit.remove()
         );
-      
-      
-
-    // filterAxis.select(".domain").remove(); 
     }
     else if (uFilter === "All"){
         yScale = d3.scaleBand()
@@ -280,7 +278,7 @@ function init() {
 
     colorScale = d3.scaleThreshold()
         .domain([6, 11, 16])
-        .range(["#f0f6ff", "#94c3ff",'#4e9afc', "#026efa" ])
+        .range(["#70a5fa", "#135DD8",'#0E4399', "#082759" ])
 
 //Create svg
     svg = d3.select("#container")
@@ -302,15 +300,15 @@ function init() {
 
 
   legendData = [
-    { color: "#f0f6ff", label: "1-5 Total Complaints", dataL: legendu5 },
-    { color: "#94c3ff", label: "6-10 Total Complaints", dataL: legend610 },
-    { color: "#4e9afc", label: "11-15 Total Complaints", dataL: legend1115 },
-    { color: "#026efa", label: "16+ Total Complaints", dataL: legendo16 },
+    { color: "#70a5fa", label: "1-5 Total Complaints", dataL: legendu5 },
+    { color: "#135DD8", label: "6-10 Total Complaints", dataL: legend610 },
+    { color: "#0E4399", label: "11-15 Total Complaints", dataL: legend1115 },
+    { color: "#082759", label: "16+ Total Complaints", dataL: legendo16 },
   ];
   
     legendC = svg.append('g')
         .attr('class', 'legend')
-        .attr('transform', `translate (${m.left}, ${m.top/2})`)
+        .attr('transform', `translate (${m.left}, ${m.top/5})`)
 
     legend = legendC.selectAll('.legend')
         .data(legendData)
@@ -325,7 +323,19 @@ function init() {
         .attr("cy", 5)
         .attr("r", 5)
         .attr("fill", d => d.color)
-        .attr("value", d => d.color);
+        .attr("value", d => d.color)
+        .on("mouseover", function (event,d) {
+          d3.select(this)
+              .transition()
+              .duration(tDuration / 5)
+              .style("cursor", "pointer")
+              .attr("r", 8)})
+        .on("mouseout", function (event,d) {
+          d3.select(this)
+              .transition()
+              .duration(tDuration / 5)
+              .style("cursor", "pointer")
+              .attr("r", 5)});
 
         legend.append("text")
         .attr("x", 25)
@@ -418,19 +428,29 @@ function draw() {
             .attr('cx', (d) => d.position[0])
             .attr('cy', (d) => d.position[1])
             .attr('r', circleRadius)
+            // .attr("opacity", 1)
             .attr('fill', (d)=>colorScale(d.Total_Complaints))
             // .style("visibility", "hidden")
             .on("click", cardBuilder)
             .on("mouseover", mouseOver)
             // .on("mousemove", mouseMove)
-            .on("mouseout", mouseOut),
+            .on("mouseout", mouseOut)
+            .on("change", function (event){
+              chartContainer.selectAll(".dots")
+              .transition()
+              .ease(d3.easeCircle)
+              .delay((d, i) => i * 2)
+              .duration(tDuration / 3)
+              .attr("opacity", .2)
+            }),
+
 
             update => update
             .on("click", cardBuilder)
             .transition()
             .ease(d3.easeCircle)
             .delay((d, i) => i * 2)
-            .duration(tDuration/3)
+            .duration(tDuration/2)
             .attr('cx', (d) => d.position[0])
             .attr('cy', (d) => d.position[1]),
 

@@ -1,15 +1,16 @@
 body {
-    font-family: 'Wix Madefor Text', sans-serif;
     font-size: 16px;
     padding: 1em;
-    background-color: rgb(47, 46, 46);
+    background-color: rgb(106, 105, 105);
+    font-family: 'Wix Madefor Text', sans-serif;
   }
   
   h1 {
-    font-size: 3em;
-    color: aliceblue;
-    margin: 0.25em 0;
+    font-size: 7em;
+    color: #fcca03;
+    margin-top: 2.5em;
     text-align: center;
+    font-family: 'Teko', sans-serif;
   }
   
   h3 {
@@ -21,17 +22,31 @@ body {
   }
   
   h2 {
+    margin: auto;
+    margin-top: 3em;
+    margin-bottom: 1em;
+    width: 60%;
     font-size: 1.5em;
+    font-weight: lighter;
     color: aliceblue;
     text-align: center;
-    margin: 1em 2em;
   }
-  p{
+  /* p{
     font-size: 1em;
     color: aliceblue;
     text-align: center;
     margin: 1em 2em;
-  }
+  } */
+
+  p {
+    margin: auto;
+    margin-bottom: 5em;
+    width: 60%;
+    font-size: 1.2em;
+    font-weight: 200;
+    text-align: center;
+    color: #082759;
+}
 
   .label{
     fill: black;
@@ -91,20 +106,23 @@ body {
       transition: 0.2s;
       padding: 0.5rem;
       border-radius: 0.5rem;
+      font-size: 1em;
+      font-weight: 300;
+      font-style: bold;
       width: 100px;
       height: fit-content;
       border-style: none;
       margin-left: 2rem;
       margin-right: 2rem;
-      background-color: aliceblue;
-      color: #0089FF;
+      background-color: rgb(100, 98, 98);
+      color: #082759;
   }
   
   .btn:hover {
       cursor: pointer;
       transition: 0.2s;
-      color: #0089FF;
-      background-color: black;
+      color: #135DD8;
+      background-color: rgb(83, 82, 82);
       font-weight: 800;
   }
   
@@ -116,20 +134,21 @@ body {
       border-style: none;
       margin-left: 2rem;
       margin-right: 2rem;
-      color: #15191f;
+      color: white;
       transition: 0.2s;
-      background-color: #0089FF;
+      background-color: #135DD8;
   }
   
-  .btn-selected:hover {
+  .active:hover {
       cursor: pointer;
       font-weight: 800;
       transition: 0.2s;
-      background-color: #0089FF;
+      background-color: #0E4399;
+      color: white;
   }
 svg{
-    background-color: rgb(47, 46, 46);
-    align-items: center;
+  background-color: rgb(106, 105, 105);
+  align-items: center;
 }
 /* .btnz > div {
         flex: 3; 
