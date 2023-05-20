@@ -1059,12 +1059,24 @@ d3-scale@4:
   resolved "https://registry.yarnpkg.com/d3-selection/-/d3-selection-3.0.0.tgz#c25338207efa72cc5b9bd1458a1a41901f1e1b31"
   integrity sha512-fmTRWbNMmsmWq6xJV8D19U/gw/bwrHfNXxrIN+HfZgnzqTHp9jOmKMhsTUjXOJnZOdZY9Q28y4yebKzqDKlxlQ==
 
+d3-selection@^1.0.2:
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/d3-selection/-/d3-selection-1.4.2.tgz#dcaa49522c0dbf32d6c1858afc26b6094555bc5c"
+  integrity sha512-SJ0BqYihzOjDnnlfyeHT0e30k0K1+5sR3d5fNueCNeuhZTnGw4M4o8mqJchSwgKMXCNFo+e2VTChiSJ0vYtXkg==
+
 d3-shape@3:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/d3-shape/-/d3-shape-3.2.0.tgz#a1a839cbd9ba45f28674c69d7f855bcf91dfc6a5"
   integrity sha512-SaLBuwGm3MOViRq2ABk3eLoxwZELpH6zhl3FbAoJ7Vm1gofKx6El1Ib5z23NUEhF9AsGl7y+dzLe5Cw2AArGTA==
   dependencies:
     d3-path "^3.1.0"
+
+d3-textwrap@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/d3-textwrap/-/d3-textwrap-3.0.0.tgz#ed2855fd41cb15533a724284c03d67cb8294043f"
+  integrity sha512-Uj2YFm95i+bM4nu1+jIUJdB6U0sW/K0D506u6tYbTEkt0+SNeEWPJ8bZbvBHPhOqom/UK6hyrMAY7JYA6t6XIg==
+  dependencies:
+    d3-selection "^1.0.2"
 
 "d3-time-format@2 - 4", d3-time-format@4:
   version "4.1.0"

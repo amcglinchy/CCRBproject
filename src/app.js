@@ -2,6 +2,10 @@ import * as d3 from 'd3'
 import $ from "jquery";
 import tippy from 'tippy.js';
 import 'tippy.js/dist/tippy.css';
+import { textwrap } from 'd3-textwrap';
+d3.textwrap = textwrap;
+
+
 
   /**
  * CONSTANTS AND GLOBALS
@@ -11,8 +15,8 @@ const w = 1300
 const m = {
     top: 30,
     bottom: 30,
-    left: 80,
-    right: 30,
+    left: 50,
+    right: 50,
 }
 const width = w - (m.left + m.right)
 const height = h - (m.top + m.bottom)
@@ -37,6 +41,32 @@ let state = {
     filterData: [],
     legCol: null,
 };
+
+function wrap(text, wrapWidth, yAxisAdjustment = 0) {
+  text.each(function() {
+    var text = d3.select(this),
+        words = text.text().split(/\s+/).reverse(),
+        word,
+        line = [],
+        lineNumber = 0,
+        lineHeight = 1, 
+        y = text.attr("y"),
+        dy = parseFloat(text.attr("dy")) - yAxisAdjustment,
+        tspan = text.text(null).append("tspan").attr("x", -10).attr("y", y - 8).attr("dy", `${dy}em`).attr("text-anchor", "end");
+    while (word = words.pop()) {
+      line.push(word);
+      tspan.text(line.join(" "));
+      if (tspan.node().getComputedTextLength() > wrapWidth) {
+        line.pop();
+        tspan.text(line.join(" "));
+        line = [word];
+        tspan = text.append("tspan").attr("x", -10).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+      }
+    }
+  });
+  return 0;
+}
+//https://observablehq.com/@gerardofurtado/wildlife-support-vs-submarines
 
 /**
 * LOAD DATA
@@ -114,7 +144,17 @@ function filterFun (uFilter){
             .tickSize(0))
         .style('opacity', 0)
         .attr("transform", `translate(${m.left * 1.5},${m.top})`);
+        // .selectAll('text')
+        // .call(wrap);
+
+        setTimeout(() => {
+          filterAxis.selectAll(".tick text").style("font-size", "12px").call(wrap, 70);
+        }, 0);
+      
+        filterAxis.selectAll("path").style("opacity", 0);
+
         filterAxis.select(".domain").remove(); 
+
 
         if (barFigures) {
             barFigures.remove();
@@ -180,8 +220,7 @@ function mouseOver(event,d) {
         tooltip.style("top", (event.y)+10 + "px")
         .style("left", (event.x)+20 + "px")
         .html(d.officerFullName
-            + "<br>" + d.Current_Rank 
-            + "<br>" + d.Total_Complaints + " total complaints"
+            + "<br>" + d.Current_Rank
         )
         .transition().duration(400)
         .style("opacity", 1);
@@ -218,11 +257,7 @@ const tooltip = d3.select("#container")
     contentDiv.className = 'content-div'
     card.appendChild(contentDiv)
 
-    let xClose = document.createElement('span')
-    xClose.innerHTML = 'close'
-    xClose.setAttribute('class', 'close material-icons')
-    card.appendChild(xClose)
-    xClose.addEventListener('click', function () {
+    bg.addEventListener('click', function () {
         window.innerHTML = ''
         bg.classList.remove('bg-active')
     })
@@ -244,7 +279,7 @@ const tooltip = d3.select("#container")
 function init() {
 
     colorScale = d3.scaleThreshold()
-        .domain([6, 10, 16])
+        .domain([6, 11, 16])
         .range(["#f0f6ff", "#94c3ff",'#4e9afc', "#026efa" ])
 
 //Create svg
@@ -260,28 +295,19 @@ function init() {
         .attr("class", "chartContainer")
 
 //Create legend
+  let legendu5 = state.data.filter((d)=>(d.Total_Complaints <= 5));
+  let legend610 = state.data.filter((d)=>(d.Total_Complaints>=6 && d.Total_Complaints<=10));
+  let legend1115 = state.data.filter((d)=>(d.Total_Complaints>=11 && d.Total_Complaints<=15));
+  let legendo16 = state.data.filter((d)=>(d.Total_Complaints>=16));
 
-let legendu5 = state.data.filter((d)=>(d.Total_Complaints <= 5));
-let legend610 = state.data.filter(d=>d.Total_Complaints>5 && d.Total_Complaints<=10);
-let legend1115 = state.data.filter(d=>d.Total_Complaints>10 && d.Total_Complaints<=15);
-let legendo16 = state.data.filter(d=>d.Total_Complaints>15);
 
-let legendScale = [
-    {data: legendu5},
-    {data: legend610},
-    {data: legend1115},
-    {data: legendo16}
-]
-legendData = [
+  legendData = [
     { color: "#f0f6ff", label: "1-5 Total Complaints", dataL: legendu5 },
     { color: "#94c3ff", label: "6-10 Total Complaints", dataL: legend610 },
     { color: "#4e9afc", label: "11-15 Total Complaints", dataL: legend1115 },
     { color: "#026efa", label: "16+ Total Complaints", dataL: legendo16 },
   ];
   
-
-    console.log("legendData", legendData)
-
     legendC = svg.append('g')
         .attr('class', 'legend')
         .attr('transform', `translate (${m.left}, ${m.top/2})`)
@@ -292,7 +318,6 @@ legendData = [
         .attr("class", "legend-item")
         .attr("transform", (d, i) => `translate(${m.left + i * 200}, 20)`)
         .style("cursor", "pointer")
-        // .classed("active", true) 
         .on("click", legendClick);
 
     legend.append('circle')
@@ -311,60 +336,26 @@ legendData = [
         .style("font-weight", 200)
         .style('fill', 'aliceblue');
 
-      
-        // Filter and highlight data points
-        // const points = d3.selectAll(".dots")
-        // .filter((data) => data === i.data);
-
-        // function legendClick(event, d) {
-        //     const isActive = d3.select(this).classed("active");
-          
-        //     // Toggle class on click
-        //     d3.select(this).classed("active", !isActive);
-          
-        //     // Get the color value of the legend item
-        //     let colorValue = d.data;
-        // //   console.log("d.data", d.data)
-        //     // Filter and highlight data points
-        //     const points = d3.selectAll(".dots")
-        //     .filter((data) => data.Total_Complaints === colorValue.Total_Complaints);
-          
-        //     // Toggle opacity based on active state
-        //     if (isActive) {
-        //       points.style("opacity", 1);
-        //     } else {
-        //       points.style("opacity", 0.2);
-        //     }
-          
-        //     console.log("Filtering Condition:", d.label);
-        //     console.log("d.data", d.data)
-        //     console.log("Matched Data Points:", points.data());
-        //   }
           
         function legendClick(event, d) {
             const isActive = d3.select(this).classed("active");
           
-            // Toggle class on click
             d3.select(this).classed("active", !isActive);
                     
-            // Filter and highlight data points
             const points = d3.selectAll(".dots").each(function(data) {
               const dot = d3.select(this);
-              const isMatchingPoint = d.dataL.some((point) => point === data);
-              console.log("hi", isMatchingPoint);
+              const matchingPoint = d.dataL.some((point) => point.Total_Complaints === data.Total_Complaints);
           
-              if (isMatchingPoint) {
-                if (isActive) {
+              if (isActive) {
+                dot.style("opacity", 1);
+              } else {
+                if (matchingPoint) {
                   dot.style("opacity", 1);
                 } else {
                   dot.style("opacity", 0.2);
                 }
               }
             });
-            console.log("d.data", d.data)
-            console.log("Filtering Condition:", d.label);
-            console.log("Matched Data Points:", points.data());
-
           }
         
 
@@ -406,9 +397,7 @@ function draw() {
                 .transition()
                 .duration(tDuration*25)
                 .style('opacity', 1)
-                .attr("fill", "#f0f6ff");
-                // .attr("transform", `translate(${m.right * .9},${m.top})`);
-        
+                .attr("fill", "#f0f6ff");        
         }
     }))
 
@@ -420,11 +409,6 @@ function draw() {
         });
       }
 
-
-
-    // const filteredData = state.data
-    //     .filter(d => state.btnFilter === "All" || state.btnFilter === d.Current_Rank
-    //     || state.btnFilter === d.Officer_Race || d.Officer_Gender)
     chartContainer.selectAll(".dots")
         .data(state.filterData, d => d.Tax_ID)
         .join(
@@ -451,9 +435,6 @@ function draw() {
             .attr('cy', (d) => d.position[1]),
 
             exit=>exit
-            // .attr("opacity", 1)
-            // .transition()
-            // .duration(500)
             .attr("opacity", 0)
             .remove()
         );
