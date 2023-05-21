@@ -1,4 +1,5 @@
-import * as d3 from 'd3'
+// import * as d3 from 'd3'
+import * as d3 from "./d3.js";
   /**
  * CONSTANTS AND GLOBALS
  * */
@@ -296,7 +297,7 @@ function init() {
   
     legendC = svg.append('g')
         .attr('class', 'legend')
-        .attr('transform', `translate (${m.left}, ${m.top/5})`)
+        .attr('transform', `translate (${m.left*2}, ${m.top/5})`)
 
     legend = legendC.selectAll('.legend')
         .data(legendData)
