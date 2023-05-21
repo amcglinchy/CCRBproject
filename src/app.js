@@ -1,12 +1,4 @@
 import * as d3 from 'd3'
-import $ from "jquery";
-import tippy from 'tippy.js';
-import 'tippy.js/dist/tippy.css';
-import { textwrap } from 'd3-textwrap';
-d3.textwrap = textwrap;
-
-
-
   /**
  * CONSTANTS AND GLOBALS
  * */
@@ -15,8 +7,8 @@ const w = 1300
 const m = {
     top: 30,
     bottom: 30,
-    left: 50,
-    right: 50,
+    left: 80,
+    right: 80,
 }
 const width = w - (m.left + m.right)
 const height = h - (m.top + m.bottom)
@@ -170,10 +162,9 @@ function filterFun (uFilter){
             .append('text')
             .attr('class', 'bar-figure')
             .attr('id', d => `bar-figure-${d[0]}`)
-            .attr("x", d => barHscale(d[1])+60)
+            .attr("x", d => barHscale(d[1])+80)
             .attr('y', d => filterBand(d[0]) + filterBand.bandwidth()/1.5) //need to fix
-            .text(d => d[1] + ' Officers')
-            .text((d) => `${d[1]} Officers (${((d[1] / totalOfficers) * 100).toFixed(2)}%)`)
+            .text((d) => `${d[1]} (${((d[1] / totalOfficers) * 100).toFixed(2)}%)`)
             .style('font-size', 24)
             .style('fill', 'white')
             .style('opacity', 0),
@@ -215,22 +206,26 @@ function mouseOver(event,d) {
         .style("cursor", "pointer")
         .attr("r", circleRadius * 2);
 
-        tooltip.style("top", (event.y)+10 + "px")
-        .style("left", (event.x)+20 + "px")
+    tooltip
+        .style("top", (event.y)+10 + "px")
+        .style("left", (event.x)+1 + "px")
         .html(d.officerFullName
             + "<br>" + d.Current_Rank
         )
         .transition().duration(400)
-        .style("opacity", 1);
-    
+        .style("opacity", 1);    
 }
+
 function mouseOut() {
     d3.select(this)
         .transition()
         .duration(tDuration / 5)
         .attr("r", circleRadius);
-        tooltip
-        .style("opacity", 0);
+    tooltip
+      .style("opacity", 1)
+      .transition()
+      .duration(100)
+      .style("opacity", 0);
 }
 
 // Tooltip
@@ -240,23 +235,16 @@ const tooltip = d3.select("#container")
         .style("opacity", "0");
 
  function cardBuilder(event, d) {
-    // function to build the modal with the films and series information
-    let window = document.querySelector('#modal')
     let bg = document.querySelector('.modal-bg')
 
     bg.classList.add('bg-active')
 
-    let card = document.createElement('div')
-    card.setAttribute('id', 'card' + '-' + d.Tax_ID)
-    card.setAttribute('class', 'modal-content')
-    window.appendChild(card)
-
     let contentDiv = document.createElement('div')
     contentDiv.className = 'content-div'
-    card.appendChild(contentDiv)
+    bg.appendChild(contentDiv)
 
     bg.addEventListener('click', function () {
-        window.innerHTML = ''
+        bg.innerHTML = ''
         bg.classList.remove('bg-active')
     })
 
@@ -355,7 +343,7 @@ function init() {
             const points = d3.selectAll(".dots").each(function(data) {
               const dot = d3.select(this);
               const matchingPoint = d.dataL.some((point) => point.Total_Complaints === data.Total_Complaints);
-          
+
               if (isActive) {
                 dot.style("opacity", 1);
               } else {
