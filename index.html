@@ -16,25 +16,32 @@
   <script type="module" src="src/app.js"></script>
   </head>
   <body>
-    <h1>OFFICERS OF THE NYPD</h1>
-    <h2> Explore the makeup of the NYPD using data from the Civilian Complaint Review Board available on NYC OpenData.
-        Sort officers* by Rank, Race or Gender by clicking the buttons.
+    <h1>NYPD MEMBERS OF SERVICE</h1>
+    <h2> The Civilian Complaint Review Board is an independent agency that investigates and 
+      recommends action on complaints made against New York City police members of service. 
+      Using the data made available by CCRB (as reported to them by NYPD based on NYPD’s roster) 
+      on <a href="https://data.cityofnewyork.us/Public-Safety/Civilian-Complaint-Review-Board-Police-Officers/2fir-qns4">NYC OpenData</a>, we can explore the defining characteristics of NYPD members* and the number of complaints against them.
     </h2>
-    <p>*This data only includes officers with 1 or more "Total Substantiated Complaint," who's current status is active,
-      and have been active in the past year (May 19, 2022 - May 19,2023).
-    </p>
+
+  <div class="sort">
+    <h3>Click the buttons below to sort the members of service. </h3>
+
 <div class="btnz">
-    <button type="button" class='btn active' id="All">All</button>
-    <button type="button" class='btn inactive' id="Officer_Race">Race</button>
-    <button type="button" class='btn inactive' id="Current_Rank">Rank</button>
-    <button type="button" class="btn inactive" id="Officer_Gender">Gender</button>
+    <button type="button" class='btn active' id="All">ALL</button>
+    <button type="button" class='btn inactive' id="Officer_Race">RACE</button>
+    <button type="button" class='btn inactive' id="Current_Rank">RANK</button>
+    <button type="button" class="btn inactive" id="Officer_Gender">GENDER</button>
 </div>  
+</div>
     <div id="container"> </div>
     <div id="popup" class="popup-container">
       <span id="popup-text"></span>
     </div>
     <div class="modal-bg"></div>
-
-  <p id="outro">give credit to the netflix guy and his code</p>
+    <p id="outro">*This data only includes members of service with 1 or more "Total Substantiated Complaint" 
+      who's current status is active, and have been active in the past year (May 19, 2022 - May 19,2023).
+    </p>
+  <p id="outro">The idea for this visualization comes from this <a href="https://luiz-flamorim.github.io/My-Netflix-DataVis/">visualization</a> by Luiz Flamorim. </p>
+  
   </body>
 </html>

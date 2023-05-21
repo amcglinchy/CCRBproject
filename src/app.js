@@ -109,7 +109,7 @@ function filterFun (uFilter){
 
             const yScale = d3.scaleBand()
             .domain(d3.range(gridRows))
-            .range([filterBand(filter) + 30, filterBand(filter) + filterBand.bandwidth()]);
+            .range([filterBand(filter) + 10, filterBand(filter) + filterBand.bandwidth()]);
 
             yScales.set(filter, yScale);
 
@@ -251,7 +251,7 @@ const tooltip = d3.select("#container")
     let officerInfo = document.createElement('h2')
     officerInfo.innerHTML = 
         d.officerFullName + " identifies as a " + d.Officer_Race + " " + d.Officer_Gender +
-        " and is currently a " + d.Current_Rank + " with the NYPD."
+        " and is currently a(n) " + d.Current_Rank + " with the NYPD."
         + "<br>" + "<br>" + "They have " + d.Total_Substantiated_Complaints + 
         " substantiated complaint(s) against them and " + d.Total_Complaints + " total complaint(s)."
         officerInfo.setAttribute('class', 'officer-info')
@@ -355,6 +355,7 @@ function init() {
               }
             });
           }
+
         
 
     filterFun(state.btnFilter);
@@ -399,6 +400,12 @@ function draw() {
         }
     }))
 
+    // let grid = document.querySelectorAll('#All')
+    // grid.forEach(el => el.addEventListener('click', function () {
+    //   chartContainer.selectAll(".dots")
+    //       .attr("r", circleRadius*2)
+    //     }))
+
     for (let i = 0; i < bars.length; i++) {
         bars[i].addEventListener("click", function() {
         let current = document.getElementsByClassName("active");
@@ -439,6 +446,7 @@ function draw() {
             .ease(d3.easeCircle)
             .delay((d, i) => i * 2)
             .duration(tDuration/2)
+            .attr("r", circleRadius)
             .attr('cx', (d) => d.position[0])
             .attr('cy', (d) => d.position[1]),
 

@@ -14,11 +14,14 @@ body {
   }
   
   h3 {
-    font-size: 2em;
-    margin: 0.25em 0;
-    width: -webkit-min-content;
-    width: -moz-min-content;
-    width: min-content;
+    margin: auto;
+    margin-top: 1em;
+    /* margin-bottom: 1em; */
+    width: 60%;
+    font-size: 1.2em;
+    font-weight: 200;
+    text-align: center;
+    color: #082759;
   }
   
   h2 {
@@ -64,65 +67,50 @@ body {
   circle{
     overflow: visible;
   }
-  /* .btn{
-    color:aliceblue;
-    background-color:#0089FF;
-    border-radius: 50px;
-    border: aliceblue;
-    font-size: large;
-    text-align: center;
-    width:100px;
-    width: fit-content;
-    height: fit-content;
-    }
-  .btn:hover{
-    background-color: aliceblue;
-    color: #0089FF;
-  }
-  .btn:focus{
-    background-color: aliceblue;
-    color: #0089FF;
-  }
-.btnz{
-    text-align: center;
-    align-items: center;
-    } */
-
+.sort{
+  /* border-top: 1px solid #082759; */
+  margin-top: 3em;
+  margin-left: 200;
+  margin-right: 200;
+}
     #buttons {
       display: flex;
       flex-direction: column;
       width: 100%;
       margin-top: 1rem;
       margin-bottom: 2rem;
-      gap: 1rem
+      gap: 1rem;
   }
   
   .btnz {
       display: flex;
       justify-content: center;
+      margin-bottom: 1em;
+      padding: 2em;
+      border-bottom: 1px solid #082759;
   }
   
   .btn {
       transition: 0.2s;
       padding: 0.5rem;
       border-radius: 0.5rem;
-      font-size: 1em;
+      font-size: 16px;
       font-weight: 300;
       font-style: bold;
-      width: 100px;
+      width: 200px;
       height: fit-content;
-      border-style: none;
       margin-left: 2rem;
       margin-right: 2rem;
-      background-color: rgb(100, 98, 98);
-      color: #082759;
+      background-color: rgb(106, 105, 105);
+      border: 2px solid #fcca03;
+      color: white;
   }
   
   .btn:hover {
       cursor: pointer;
       transition: 0.2s;
-      color: #135DD8;
-      background-color: rgb(83, 82, 82);
+      color: white;
+      background-color: #fcca03;
       font-weight: 800;
   }
   
@@ -130,21 +118,18 @@ body {
       cursor: pointer;
       padding: 0.5rem;
       border-radius: 0.5rem;
-      width: 100px;
-      border-style: none;
-      margin-left: 2rem;
-      margin-right: 2rem;
-      color: white;
+      color: #082759;
       transition: 0.2s;
-      background-color: #135DD8;
+      background-color: #fcca03;
+      font-weight: 800;
   }
   
   .active:hover {
       cursor: pointer;
-      font-weight: 800;
+      font-weight: 900;
       transition: 0.2s;
-      background-color: #0E4399;
-      color: white;
+      background-color: #e6b802;
+      color: #082759;
   }
 svg{
   background-color: rgb(106, 105, 105);
@@ -214,12 +199,40 @@ svg{
 }
 #outro {
   margin: auto;
-  margin-top: 5rem;
-  margin-bottom: 5rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
   width: 56%;
   font-size: 0.9rem;
   font-weight: 100;
   text-align: center;
   padding-top: 2rem;
   border-top: 1px solid rgba(217, 217, 217, 0.2);
+  color: white;
 }
+
+
+/* unvisited link */
+a:link {
+  color: #082759;
+  text-decoration: none;
+}
+a:visited{
+  color:#082759;
+  text-decoration: none;
+  }
+/* mouse over link */
+a:hover {
+  color: #e6b802;
+  font-weight: 800;
+}
+
+.popup {
+  position: absolute;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 10px;
+  font-size: 14px;
+  z-index: 9999;
+  pointer-events: none;
+}
+
