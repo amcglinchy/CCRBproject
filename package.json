@@ -1,7 +1,7 @@
 {
   "name": "ccrb-project",
   "version": "1.0.0",
-  "repository": "https://github.com/amcglinchy/CCRBproject.git",
+  "repository": "https://github.com/amcglinchy/ccrb-project",
   "author": "Alex McGlinchy",
   "license": "MIT",
   "devDependencies": {
